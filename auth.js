@@ -2,11 +2,7 @@
 // This is client-side protection - suitable for keeping casual visitors out
 
 // Wait for DOM to be ready before running
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPasswordProtection);
-} else {
-    initPasswordProtection();
-}
+document.addEventListener('DOMContentLoaded', initPasswordProtection);
 
 function initPasswordProtection() {
     'use strict';
