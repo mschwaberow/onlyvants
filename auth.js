@@ -1,5 +1,6 @@
 // Password Protection for OnlyVants
 // Simple client-side protection
+// Version: 1.1 - Enhanced mobile support and error handling
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log('OnlyVants: DOM loaded, starting auth check');
