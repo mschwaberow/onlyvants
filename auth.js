@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             justify-content: center;
             z-index: 10000;
             font-family: 'Inter', sans-serif;
+            visibility: visible;
         `;
 
         overlay.innerHTML = `
