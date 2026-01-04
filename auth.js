@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     <button type="submit" style="width: 100%; padding: 1rem 2rem; font-size: 1rem; font-weight: 600; background: linear-gradient(135deg, #00AFF0 0%, #0095D1 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-family: inherit;">Unlock</button>
                     <p id="password-error" style="color: #FF006B; font-size: 0.9rem; margin-top: 1rem; min-height: 1.5rem;"></p>
                 </form>
-                <p style="font-size: 0.85rem; color: #5B6B7A; margin-top: 1.5rem; font-style: italic;">Hint: Rambler + current year</p>
             </div>
         `;
 
