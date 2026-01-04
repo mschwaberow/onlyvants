@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Hash password
     async function hashPassword(password) {
+        // Check if crypto.subtle is available
+        if (!window.crypto || !window.crypto.subtle) {
+            console.error('OnlyVants: Web Crypto API not available. Site must be accessed via HTTPS.');
+            throw new Error('Secure context required. Please access this site via HTTPS.');
+        }
+
         const encoder = new TextEncoder();
         const data = encoder.encode(password);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
@@ -96,22 +102,44 @@ document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('password-form');
         const input = document.getElementById('password-input');
         const error = document.getElementById('password-error');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('OnlyVants: Form submitted');
+
             const password = input.value;
 
-            if (await verifyPassword(password)) {
-                saveAuth();
-                overlay.style.opacity = '0';
-                overlay.style.transition = 'opacity 0.5s';
-                setTimeout(() => {
-                    overlay.remove();
-                    document.body.style.visibility = 'visible';
-                }, 500);
-            } else {
-                error.textContent = 'Incorrect password. Try again!';
-                input.value = '';
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Verifying...';
+            error.textContent = '';
+
+            try {
+                console.log('OnlyVants: Verifying password...');
+                const isValid = await verifyPassword(password);
+                console.log('OnlyVants: Password valid:', isValid);
+
+                if (isValid) {
+                    saveAuth();
+                    submitBtn.textContent = 'Success!';
+                    overlay.style.opacity = '0';
+                    overlay.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        overlay.remove();
+                        document.body.style.visibility = 'visible';
+                    }, 500);
+                } else {
+                    error.textContent = 'Incorrect password. Try again!';
+                    input.value = '';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Unlock';
+                }
+            } catch (err) {
+                console.error('OnlyVants: Error during verification:', err);
+                error.textContent = 'Error verifying password. Please try again.';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Unlock';
             }
         });
 
