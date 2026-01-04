@@ -1,14 +1,21 @@
 // Password Protection for OnlyVants
 // This is client-side protection - suitable for keeping casual visitors out
 
-(function () {
+// Wait for DOM to be ready before running
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPasswordProtection);
+} else {
+    initPasswordProtection();
+}
+
+function initPasswordProtection() {
     'use strict';
 
     // Configuration
     const CONFIG = {
-        // SHA-256 hash of the password "jimvant2024"
+        // SHA-256 hash of the password "Rambler2025"
         // To change password, generate new hash at: https://emn178.github.io/online-tools/sha256.html
-        passwordHash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
+        passwordHash: '60157f96ec93c5b855d8c9624327407881f5cd82dbe228c77444c630f7abf592',
         sessionDuration: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
         storageKey: 'onlyvants_auth'
     };
@@ -245,6 +252,11 @@
                 25% { transform: translateX(-10px); }
                 75% { transform: translateX(10px); }
             }
+            
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
         `;
         document.head.appendChild(style);
 
@@ -276,18 +288,8 @@
         setTimeout(() => input.focus(), 100);
     }
 
-    // Add fadeOut animation
-    const fadeOutStyle = document.createElement('style');
-    fadeOutStyle.textContent = `
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-    `;
-    document.head.appendChild(fadeOutStyle);
-
     // Check authentication on page load
     if (!isAuthenticated()) {
         showPasswordPrompt();
     }
-})();
+}
